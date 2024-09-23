@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{variable_name}}Webpage</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffcc00;
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #ff6600;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{variable_name}} ANSIBLE project</h1>
+
+    <h2>Welcome to My Website with local host name: {{public_dns}} : {{ansible_facts.fqdn}}</h2>
+    <p>This is an example webpage with a black background and styled titles and body text. You can customize the content, color, and layout according to your needs.</p>
+
+    <h2>Welcome to My Website with private ip : {{private_ip}} : {{ansible_facts.default_ipv4.address}}</h2>
+    <p>Feel free to reach out to me at <a href="kaream10adel@gmail.com" style="color: #ffcc00;">kaream10adel@gmail.com</a>.</p>
+
+</body>
+</html>

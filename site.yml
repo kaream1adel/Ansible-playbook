@@ -1,0 +1,61 @@
+---
+- name: web server project
+  hosts: webservers
+  vars_files:
+    - vars/vars.yaml
+  tasks:
+    - name: Get instance metadata
+      amazon.aws.ec2_metadata_facts:
+        metadata_token_ttl_seconds: 60
+      register: metadata
+
+    - name: print metadata
+      debug:
+        var: metadata
+
+        
+
+    - name: install nginx
+      yum:
+        name: nginx 
+        state: latest
+      become: yes
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      become: yes
+    - name: copy configuration file
+      ansible.builtin.copy:
+        src: /home/ansible/workspace/web_server/nginx_config.cfg
+        dest:  /etc/nginx/conf.d/nginx_config.conf
+        mode: '0644'
+    # - name: create link
+    #   file:
+    #     src: /etc/nginx/sites-available/nginx_config.cfg
+    #     dest: /etc/nginx/sites-enabled/default
+    #     state: link
+    #   become: yes
+
+
+    - name: Ensure /var/www/mysite directory exists
+      file:
+        path: /var/www/mysite
+        state: directory
+        mode: '0755'
+
+    - name: copy index file
+      template:
+        src: index.html.j2  # Path to your Jinja2 template
+        dest: /var/www/mysite/index.html
+        mode: '0644'
+      become: yes
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+    
+        
