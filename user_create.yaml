@@ -1,0 +1,27 @@
+---
+
+- name: create user jenkins
+  user:
+    name: jenkins
+    shell: /bin/bash      # Optional: Set the user's shell
+    state: absent        # Ensure the user is present
+    createhome: yes       # Optional: Create home directory
+    groups: wheel            # Optional: Add to 'wheel' group if you want to grant all sudo privileges
+    password: 3001
+  become: yes
+  register: lol
+
+
+- name: Create sudoers file for Jenkins
+  copy:
+        content: 'jenkins ALL=(ALL) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/jenkins
+        mode: '0440'
+        validate: 'visudo -cf %s'  # Validate the syntax
+  become: yes
+
+
+
+- name: echo info of the user
+  debug:
+    var: lol

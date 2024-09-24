@@ -1,8 +1,16 @@
 ---
-- name: web server project
-  hosts: webservers
+# - name: web server project
+#   hosts: webservers
+#   roles:
+#     - web-server
+
+
+- name: jenkins
+  hosts: jenkins_agents
+  remote_user: ec2-user
   roles:
-    - web-server
+    - jenkins-role
+
 
     
         

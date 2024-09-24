@@ -1,0 +1,42 @@
+---
+# tasks file for roles/jenkins
+- name: install wget
+  dnf:
+    name: wget
+    state: present
+    update_cache: yes
+
+
+- name: install java
+  dnf:
+    name: java-11-openjdk-devel
+    state: present
+
+- name: download the repo
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    
+
+
+- name: Import a key from a url
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+  become: yes
+
+
+- name: install jenkins
+  dnf:
+    name: jenkins
+    state: present
+    update_cache: yes
+
+- name: start jenkins service
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+
+
